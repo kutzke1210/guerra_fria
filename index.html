@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Guerra Fria - Apresentação</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #0a0a0f;
+      color: #e0e0e0;
+      overflow: hidden;
+      height: 100vh;
+      width: 100vw;
+    }
+
+    .slides-wrapper {
+      display: flex;
+      transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+      height: 100vh;
+    }
+
+    .slide {
+      min-width: 100vw;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 4rem 6rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .slide::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      opacity: 0.15;
+      z-index: 0;
+    }
+
+    .slide > * { position: relative; z-index: 1; }
+
+    .slide-number {
+      position: absolute;
+      top: 2rem;
+      right: 3rem;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 3rem;
+      color: rgba(255,255,255,0.08);
+      z-index: 2;
+      letter-spacing: 0.05em;
+    }
+
+    .slide-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 4.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 2.5rem;
+      text-align: center;
+    }
+
+    .slide-title .highlight-red { color: #dc2626; }
+    .slide-title .highlight-blue { color: #2563eb; }
+
+    .slide-content {
+      max-width: 900px;
+      width: 100%;
+      background: rgba(0,0,0,0.55);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 1.5rem;
+      padding: 2.5rem 3rem;
+    }
+
+    .slide-content ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .slide-content ul li {
+      font-size: 1.15rem;
+      line-height: 1.6;
+      padding-left: 1.75rem;
+      position: relative;
+      color: #c0c4cc;
+    }
+
+    .slide-content ul li strong {
+      color: #f0f0f0;
+      font-weight: 700;
+    }
+
+    .slide-content ul li::before {
+      content: '▸';
+      position: absolute;
+      left: 0;
+      color: #dc2626;
+      font-weight: 700;
+    }
+
+    .slide-content ul li:nth-child(2)::before { color: #2563eb; }
+    .slide-content ul li:nth-child(3)::before { color: #7c3aed; }
+    .slide-content ul li:nth-child(4)::before { color: #d97706; }
+    .slide-content ul li:nth-child(5)::before { color: #059669; }
+    .slide-content ul li:nth-child(6)::before { color: #db2777; }
+
+    .slide-image {
+      margin-top: 1.5rem;
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .slide-image img {
+      max-height: 160px;
+      max-width: 45%;
+      object-fit: cover;
+      border-radius: 0.75rem;
+      border: 2px solid rgba(255,255,255,0.08);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+      transition: transform 0.3s, border-color 0.3s;
+    }
+
+    .slide-image img:hover {
+      transform: scale(1.04);
+      border-color: rgba(255,255,255,0.2);
+    }
+
+    .caption {
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.35);
+      text-align: center;
+      margin-top: 0.4rem;
+      font-style: italic;
+    }
+
+    /* ---- Navigation ---- */
+    .nav {
+      position: fixed;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      z-index: 100;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      padding: 0.75rem 1.5rem;
+      border-radius: 3rem;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .nav button {
+      background: none;
+      border: none;
+      color: #a0a0a0;
+      font-size: 1.5rem;
+      cursor: pointer;
+      padding: 0.25rem 0.5rem;
+      transition: color 0.2s;
+      line-height: 1;
+    }
+
+    .nav button:hover { color: #ffffff; }
+    .nav button:disabled { opacity: 0.25; cursor: default; }
+
+    .nav .dots {
+      display: flex;
+      gap: 0.5rem;
+      max-width: 200px;
+      overflow-x: auto;
+      overflow-y: hidden;
+      scrollbar-width: none;
+      padding: 2px 0;
+    }
+    .nav .dots::-webkit-scrollbar { display: none; }
+
+    .nav .dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.15);
+      border: none;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.2s;
+      padding: 0;
+    }
+
+    .nav .dot.active { background: #dc2626; transform: scale(1.3); }
+    .nav .dot:hover { background: rgba(255,255,255,0.4); }
+
+    .nav .slide-label {
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.3);
+      font-weight: 600;
+      min-width: 4rem;
+      text-align: center;
+      letter-spacing: 0.05em;
+    }
+
+    /* ---- Slide-specific backgrounds ---- */
+    .slide-0::before { background: linear-gradient(135deg, rgba(220,38,38,0.3), rgba(37,99,235,0.3)), url('https://upload.wikimedia.org/wikipedia/commons/2/2f/Cold_War_WorldMap_1962.png'); background-size: cover; background-position: center; opacity: 1; }
+    .slide-1::before { background-image: url('https://upload.wikimedia.org/wikipedia/commons/2/2f/Cold_War_WorldMap_1962.png'); opacity: 0.12; }
+    .slide-2::before { background-image: url('https://upload.wikimedia.org/wikipedia/commons/b/b3/Marshall_Plan_poster.JPG'); }
+    .slide-3::before { background-image: url('https://upload.wikimedia.org/wikipedia/commons/3/37/Newyork_unitednations.JPG'); }
+    .slide-4::before { background-image: url('https://upload.wikimedia.org/wikipedia/commons/f/f3/Berlin_Wall_Reinforced_306-bn-104-1.jpg'); }
+    .slide-5::before { background-image: url('https://upload.wikimedia.org/wikipedia/commons/c/c4/NATO_1955.jpg'); opacity: 0.12; }
+    .slide-6::before { background-image: url('https://upload.wikimedia.org/wikipedia/commons/5/59/Warsaw_Pact_1955.jpg'); }
+    .slide-7::before { background-image: url('https://upload.wikimedia.org/wikipedia/commons/2/2f/Cold_War_WorldMap_1962.png'); opacity: 0.08; }
+    .slide-8::before, .slide-9::before, .slide-10::before, .slide-11::before, .slide-12::before { background-image: url('https://upload.wikimedia.org/wikipedia/commons/2/2f/Cold_War_WorldMap_1962.png'); opacity: 0.06; }
+
+    /* ---- Cover ---- */
+    .slide-0 { padding: 0; overflow: hidden; }
+    .slide-0::before { background: linear-gradient(135deg, rgba(220,38,38,0.25), rgba(37,99,235,0.25)), url('https://upload.wikimedia.org/wikipedia/commons/2/2f/Cold_War_WorldMap_1962.png'); background-size: cover; background-position: center; opacity: 1; animation: bgZoom 20s ease-in-out infinite alternate; }
+    @keyframes bgZoom { 0% { transform: scale(1); } 100% { transform: scale(1.1); } }
+    .slide-0::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.04) 2px, rgba(0,0,0,0.04) 4px);
+      pointer-events: none;
+      z-index: 5;
+      animation: scanlines 10s linear infinite;
+    }
+    @keyframes scanlines { 0% { transform: translateY(0); } 100% { transform: translateY(4px); } }
+    .cover-overlay {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 50% 50%, transparent 30%, rgba(0,0,0,0.6) 100%);
+      z-index: 1;
+    }
+    .cover-overlay::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(0,0,0,0.5) 0%, transparent 30%, transparent 70%, rgba(0,0,0,0.5) 100%);
+    }
+    .cover-glow {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(100px);
+      opacity: 0.12;
+      z-index: 1;
+      animation: glowPulse 5s ease-in-out infinite alternate;
+    }
+    .cover-glow.g1 { background: #dc2626; width: 400px; height: 400px; top: -150px; left: 5%; }
+    .cover-glow.g2 { background: #2563eb; width: 350px; height: 350px; bottom: -120px; right: 5%; animation-delay: 2.5s; }
+    .cover-glow.g3 { background: #dc2626; width: 200px; height: 200px; bottom: 20%; left: 60%; animation-delay: 1.2s; opacity: 0.06; }
+    .cover-glow.g4 { background: #2563eb; width: 180px; height: 180px; top: 30%; right: 60%; animation-delay: 3.7s; opacity: 0.06; }
+    @keyframes glowPulse { 0% { opacity: 0.06; transform: scale(1); } 100% { opacity: 0.16; transform: scale(1.3); } }
+    .cover-corner {
+      position: absolute;
+      width: 60px; height: 60px;
+      border-color: rgba(255,255,255,0.08);
+      z-index: 4;
+    }
+    .cover-corner.tl { top: 2rem; left: 2rem; border-top: 1px solid; border-left: 1px solid; }
+    .cover-corner.tr { top: 2rem; right: 2rem; border-top: 1px solid; border-right: 1px solid; }
+    .cover-corner.bl { bottom: 2rem; left: 2rem; border-bottom: 1px solid; border-left: 1px solid; }
+    .cover-corner.br { bottom: 2rem; right: 2rem; border-bottom: 1px solid; border-right: 1px solid; }
+    .cover-content {
+      position: relative;
+      z-index: 3;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+      width: 100%;
+      padding: 4rem;
+    }
+    .cover-title-line {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #fff;
+      text-shadow: 0 0 80px rgba(0,0,0,0.9), 0 0 40px rgba(0,0,0,0.5);
+      line-height: 1;
+      margin-bottom: 0;
+      animation: titleReveal 1.5s ease-out;
+      position: relative;
+    }
+    .cover-title-line .red {
+      color: #dc2626;
+      text-shadow: 0 0 60px rgba(220,38,38,0.3), 0 0 120px rgba(220,38,38,0.1);
+    }
+    .cover-title-line .blue {
+      color: #3b82f6;
+      text-shadow: 0 0 60px rgba(59,130,246,0.3), 0 0 120px rgba(59,130,246,0.1);
+    }
+    @keyframes titleReveal {
+      0% { opacity: 0; filter: blur(20px); transform: scale(0.8); letter-spacing: 0.3em; }
+      60% { filter: blur(0); }
+      100% { opacity: 1; filter: blur(0); transform: scale(1); letter-spacing: 0.12em; }
+    }
+    .cover-title-glitch {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      pointer-events: none;
+      opacity: 0;
+    }
+    .cover-title-glitch.g1 { color: #ff0040; clip-path: inset(40% 0 50% 0); animation: glitch1 3s infinite 2s; }
+    .cover-title-glitch.g2 { color: #00b4ff; clip-path: inset(60% 0 20% 0); animation: glitch2 3s infinite 2s; }
+    @keyframes glitch1 {
+      0%, 90%, 100% { opacity: 0; transform: translate(0); }
+      92% { opacity: 0.5; transform: translate(-3px, 2px); }
+      94% { opacity: 0.3; transform: translate(3px, -1px); }
+      96% { opacity: 0.4; transform: translate(-2px, 1px); }
+    }
+    @keyframes glitch2 {
+      0%, 90%, 100% { opacity: 0; transform: translate(0); }
+      92% { opacity: 0.4; transform: translate(3px, -1px); }
+      94% { opacity: 0.3; transform: translate(-4px, 2px); }
+      96% { opacity: 0.5; transform: translate(2px, -2px); }
+    }
+    .cover-subtitle {
+      font-size: 0.85rem;
+      letter-spacing: 0.45em;
+      color: rgba(255,255,255,0.2);
+      text-transform: uppercase;
+      margin-top: 0.75rem;
+      animation: fadeUp 1s ease-out 0.6s both;
+    }
+    @keyframes fadeUp { 0% { opacity: 0; transform: translateY(12px); } 100% { opacity: 1; transform: translateY(0); } }
+    .cover-divider-line {
+      width: 140px;
+      height: 1px;
+      margin: 2rem auto;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+      animation: dividerGrow 1s ease-out 1s both;
+      position: relative;
+    }
+    .cover-divider-line::after {
+      content: '★';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 0.4rem;
+      color: rgba(255,255,255,0.15);
+    }
+    @keyframes dividerGrow { 0% { width: 0; opacity: 0; } 100% { width: 140px; opacity: 1; } }
+    .cover-names {
+      display: flex;
+      justify-content: center;
+      gap: 2.5rem;
+      flex-wrap: wrap;
+    }
+    .cover-name-item {
+      text-align: center;
+      position: relative;
+      padding: 1rem 1.5rem;
+      border-radius: 0.75rem;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.04);
+      min-width: 130px;
+      transition: all 0.4s;
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    .cover-name-item:nth-child(1) { animation: nameSlide 0.6s ease-out 1.4s forwards; }
+    .cover-name-item:nth-child(2) { animation: nameSlide 0.6s ease-out 1.7s forwards; }
+    .cover-name-item:nth-child(3) { animation: nameSlide 0.6s ease-out 2.0s forwards; }
+    .cover-name-item:nth-child(4) { animation: nameSlide 0.6s ease-out 2.3s forwards; }
+    @keyframes nameSlide { 0% { opacity: 0; transform: translateY(20px); } 100% { opacity: 1; transform: translateY(0); } }
+    .cover-name-item:hover {
+      background: rgba(255,255,255,0.06);
+      border-color: rgba(255,255,255,0.15);
+      transform: translateY(-4px) scale(1.03);
+    }
+    .cover-name-item::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 2px;
+      border-radius: 1px;
+      transition: width 0.4s;
+    }
+    .cover-name-item:nth-child(1)::after { background: #dc2626; }
+    .cover-name-item:nth-child(2)::after { background: #3b82f6; }
+    .cover-name-item:nth-child(3)::after { background: #22c55e; }
+    .cover-name-item:nth-child(4)::after { background: #eab308; }
+    .cover-name-item:hover::after { width: 80%; }
+    .cover-name-item .name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.2rem;
+      letter-spacing: 0.1em;
+      display: block;
+      transition: color 0.3s;
+    }
+    .cover-name-item:nth-child(1) .name { color: #ef4444; }
+    .cover-name-item:nth-child(2) .name { color: #60a5fa; }
+    .cover-name-item:nth-child(3) .name { color: #4ade80; }
+    .cover-name-item:nth-child(4) .name { color: #facc15; }
+    .cover-name-item:hover .name { color: #fff; }
+    .cover-name-item .role {
+      font-size: 0.6rem;
+      letter-spacing: 0.25em;
+      color: rgba(255,255,255,0.15);
+      text-transform: uppercase;
+      margin-top: 0.15rem;
+      display: block;
+    }
+    .cover-bottom-bar {
+      position: absolute;
+      bottom: 0;
+      left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #dc2626 0%, #dc2626 50%, #3b82f6 50%, #3b82f6 100%);
+      z-index: 4;
+      animation: barSlide 1.5s ease-out 1s both;
+    }
+    @keyframes barSlide { 0% { transform: scaleX(0); } 100% { transform: scaleX(1); } }
+    .cover-bottom-text {
+      position: absolute;
+      bottom: 1.5rem;
+      font-size: 0.65rem;
+      letter-spacing: 0.35em;
+      color: rgba(255,255,255,0.08);
+      text-transform: uppercase;
+      z-index: 3;
+      animation: fadeUp 1s ease-out 2.8s both;
+    }
+    @media (max-width: 768px) {
+      .cover-title-line, .cover-title-glitch { font-size: 3.5rem; }
+      .cover-names { gap: 1rem; }
+      .cover-name-item { min-width: 100px; padding: 0.75rem 1rem; }
+      .cover-name-item .name { font-size: 1.6rem; }
+      .cover-content { padding: 2rem; }
+      .cover-divider-line { margin: 1.5rem auto; }
+      .cover-corner { width: 30px; height: 30px; }
+      .cover-corner.tl { top: 1rem; left: 1rem; }
+      .cover-corner.tr { top: 1rem; right: 1rem; }
+      .cover-corner.bl { bottom: 1rem; left: 1rem; }
+      .cover-corner.br { bottom: 1rem; right: 1rem; }
+    }
+
+    /* ---- Quiz ---- */
+    .quiz-badge {
+      display: inline-block;
+      background: rgba(220, 38, 38, 0.15);
+      border: 1px solid rgba(220, 38, 38, 0.3);
+      padding: 0.3rem 1.2rem;
+      border-radius: 2rem;
+      font-size: 0.8rem;
+      letter-spacing: 0.15em;
+      color: #dc2626;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+    .quiz-question {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #f0f0f0;
+      margin-bottom: 1.5rem;
+      line-height: 1.5;
+    }
+    .quiz-options {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    .quiz-option {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 0.75rem;
+      padding: 1rem 1.25rem;
+      cursor: pointer;
+      transition: all 0.25s;
+      font-size: 1rem;
+      color: #c0c4cc;
+      text-align: left;
+      font-family: 'Inter', sans-serif;
+      position: relative;
+      overflow: hidden;
+    }
+    .quiz-option:hover:not(.correct):not(.wrong) {
+      background: rgba(255,255,255,0.08);
+      border-color: rgba(255,255,255,0.2);
+    }
+    .quiz-option .option-letter {
+      display: inline-block;
+      width: 1.8rem;
+      height: 1.8rem;
+      line-height: 1.8rem;
+      text-align: center;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.06);
+      font-weight: 700;
+      font-size: 0.85rem;
+      margin-right: 0.75rem;
+      color: rgba(255,255,255,0.4);
+      transition: all 0.25s;
+    }
+    .quiz-option.correct {
+      background: rgba(34, 197, 94, 0.15);
+      border-color: #22c55e;
+    }
+    .quiz-option.correct .option-letter { background: #22c55e; color: #fff; }
+    .quiz-option.wrong {
+      background: rgba(220, 38, 38, 0.15);
+      border-color: #dc2626;
+      animation: shake 0.4s;
+    }
+    .quiz-option.wrong .option-letter { background: #dc2626; color: #fff; }
+    .quiz-option.disabled { pointer-events: none; }
+    .quiz-explanation {
+      margin-top: 1rem;
+      padding: 1rem 1.25rem;
+      border-radius: 0.75rem;
+      background: rgba(255,255,255,0.04);
+      border-left: 3px solid #22c55e;
+      font-size: 0.9rem;
+      color: #a0a4ac;
+      line-height: 1.5;
+      display: none;
+    }
+    .quiz-explanation.show { display: block; animation: fadeIn 0.4s; }
+    .quiz-explanation strong { color: #22c55e; }
+    .quiz-score {
+      font-size: 1.2rem;
+      text-align: center;
+      margin-top: 1rem;
+      font-weight: 700;
+      display: none;
+    }
+    .quiz-score.show { display: block; animation: fadeIn 0.6s; }
+    .quiz-score .score-number { font-size: 3rem; font-family: 'Bebas Neue', sans-serif; letter-spacing: 0.05em; }
+    .quiz-score .score-label { color: #a0a4ac; font-weight: 400; font-size: 0.95rem; }
+    .quiz-score .score-stars { font-size: 1.5rem; margin-top: 0.3rem; }
+    .quiz-score .score-message { font-size: 1rem; color: #a0a4ac; margin-top: 0.3rem; font-weight: 400; }
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20% { transform: translateX(-8px); }
+      40% { transform: translateX(8px); }
+      60% { transform: translateX(-5px); }
+      80% { transform: translateX(5px); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .quiz-locked-msg {
+      text-align: center;
+      margin-top: 0.75rem;
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.25);
+      letter-spacing: 0.05em;
+      display: none;
+    }
+    .quiz-locked-msg.show { display: block; }
+
+    /* ---- Responsive ---- */
+    @media (max-width: 900px) {
+      .slide { padding: 2.5rem 2rem; }
+      .slide-title { font-size: 3rem; margin-bottom: 1.8rem; }
+      .slide-content { padding: 2rem; }
+      .slide-content ul li { font-size: 1rem; }
+      .quiz-question { font-size: 1.15rem; }
+      .nav .dots { gap: 0.35rem; }
+    }
+
+    @media (max-width: 768px) {
+      .slide { padding: 1.5rem 1.25rem; justify-content: flex-start; padding-top: 3.5rem; }
+      .slide-title { font-size: 2.2rem; margin-bottom: 1.2rem; }
+      .slide-content { padding: 1.25rem; border-radius: 1rem; }
+      .slide-content ul { gap: 0.65rem; }
+      .slide-content ul li { font-size: 0.88rem; line-height: 1.5; padding-left: 1.3rem; }
+      .slide-image { margin-top: 1rem; gap: 0.75rem; }
+      .slide-image img { max-height: 80px; max-width: 100%; }
+      .slide-number { font-size: 1.6rem; top: 0.75rem; right: 1rem; }
+      .caption { font-size: 0.7rem; margin-top: 0.3rem; }
+      .nav { gap: 0.4rem; padding: 0.4rem 0.75rem; bottom: 1.5rem; }
+      .nav button { font-size: 1.2rem; padding: 0.2rem 0.3rem; }
+      .nav .slide-label { font-size: 0.7rem; min-width: 3rem; }
+      .nav .dot { width: 8px; height: 8px; }
+      .nav .dot.active { transform: scale(1.2); }
+      .quiz-badge { font-size: 0.7rem; padding: 0.2rem 0.8rem; margin-bottom: 0.6rem; }
+      .quiz-question { font-size: 1.05rem; margin-bottom: 1rem; }
+      .quiz-option { padding: 0.8rem 1rem; font-size: 0.9rem; border-radius: 0.6rem; }
+      .quiz-option .option-letter { width: 1.5rem; height: 1.5rem; line-height: 1.5rem; font-size: 0.75rem; margin-right: 0.6rem; }
+      .quiz-explanation { font-size: 0.82rem; padding: 0.8rem 1rem; }
+      .quiz-locked-msg { font-size: 0.75rem; }
+      .quiz-score .score-number { font-size: 2.2rem; }
+      .quiz-score .score-stars { font-size: 1.2rem; }
+      .quiz-score .score-message { font-size: 0.85rem; }
+    }
+
+    @media (max-width: 600px) {
+      .slide-content ul li { font-size: 0.82rem; }
+      .slide-image img { max-height: 65px; }
+      .cover-name-item .name { font-size: 1.3rem; }
+      .cover-name-item { min-width: 80px; padding: 0.5rem 0.75rem; }
+      .cover-names { gap: 0.6rem; }
+    }
+
+    @media (max-width: 480px) {
+      .slide { padding: 1rem 0.75rem; padding-top: 3rem; }
+      .slide-title { font-size: 1.6rem; margin-bottom: 0.8rem; }
+      .slide-content { padding: 1rem; border-radius: 0.75rem; }
+      .slide-content ul li { font-size: 0.78rem; line-height: 1.4; padding-left: 1.1rem; }
+      .slide-content ul li::before { font-size: 0.75rem; }
+      .slide-image { margin-top: 0.6rem; gap: 0.5rem; }
+      .slide-image img { max-height: 55px; border-radius: 0.5rem; border-width: 1px; }
+      .slide-number { font-size: 1.3rem; top: 0.5rem; right: 0.75rem; }
+      .caption { font-size: 0.6rem; }
+      .nav { gap: 0.3rem; padding: 0.35rem 0.6rem; bottom: 1rem; border-radius: 2rem; }
+      .nav button { font-size: 1rem; padding: 0.15rem 0.25rem; }
+      .nav .slide-label { font-size: 0.6rem; min-width: 2.5rem; }
+      .nav .dot { width: 6px; height: 6px; }
+      .nav .dots { gap: 0.25rem; }
+      .quiz-badge { font-size: 0.6rem; padding: 0.15rem 0.6rem; }
+      .quiz-question { font-size: 0.92rem; margin-bottom: 0.75rem; }
+      .quiz-option { padding: 0.65rem 0.8rem; font-size: 0.82rem; }
+      .quiz-option .option-letter { width: 1.3rem; height: 1.3rem; line-height: 1.3rem; font-size: 0.65rem; margin-right: 0.5rem; }
+      .quiz-explanation { font-size: 0.75rem; padding: 0.6rem 0.8rem; }
+      .quiz-score .score-number { font-size: 1.8rem; }
+    }
+
+    @media (max-width: 400px) {
+      .slide-title { font-size: 1.3rem; }
+      .slide-content ul li { font-size: 0.72rem; line-height: 1.3; }
+      .slide-image img { max-height: 45px; }
+      .cover-name-item .name { font-size: 1.1rem; }
+    }
+
+    @media (orientation: landscape) and (max-height: 500px) {
+      .slide { padding: 0.75rem 2rem; justify-content: center; }
+      .slide-title { font-size: 1.8rem; margin-bottom: 0.6rem; }
+      .slide-content { padding: 0.8rem 1.2rem; }
+      .slide-content ul { gap: 0.3rem; }
+      .slide-content ul li { font-size: 0.75rem; padding-left: 1rem; }
+      .slide-image img { max-height: 50px; }
+      .slide-number { font-size: 1.2rem; top: 0.3rem; right: 1rem; }
+      .slide-image { margin-top: 0.4rem; }
+      .caption { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="slides-wrapper" id="slidesWrapper">
+
+<!-- SLIDE 0 — CAPA -->
+  <section class="slide slide-0">
+    <div class="cover-overlay"></div>
+    <div class="cover-glow g1"></div>
+    <div class="cover-glow g2"></div>
+    <div class="cover-glow g3"></div>
+    <div class="cover-glow g4"></div>
+    <div class="cover-corner tl"></div>
+    <div class="cover-corner tr"></div>
+    <div class="cover-corner bl"></div>
+    <div class="cover-corner br"></div>
+    <div class="cover-content">
+      <div class="cover-title-line">
+        <span class="red">Guerra</span> <span class="blue">Fria</span>
+        <span class="cover-title-glitch g1"><span class="red">Guerra</span> <span class="blue">Fria</span></span>
+        <span class="cover-title-glitch g2"><span class="red">Guerra</span> <span class="blue">Fria</span></span>
+      </div>
+      <div class="cover-subtitle">1947 — 1991</div>
+      <div class="cover-divider-line"></div>
+      <div class="cover-names">
+        <div class="cover-name-item">
+          <span class="name">Eduardo</span>
+          <span class="role">Apresentador</span>
+        </div>
+        <div class="cover-name-item">
+          <span class="name">Lucas</span>
+          <span class="role">Apresentador</span>
+        </div>
+        <div class="cover-name-item">
+          <span class="name">Arthur</span>
+          <span class="role">Apresentador</span>
+        </div>
+        <div class="cover-name-item">
+          <span class="name">Matheus</span>
+          <span class="role">Apresentador</span>
+        </div>
+      </div>
+    </div>
+    <div class="cover-bottom-bar"></div>
+    <div class="cover-bottom-text">Pressione → para iniciar</div>
+  </section>
+
+  <!-- SLIDE 1 -->
+  <section class="slide slide-1">
+    <span class="slide-number">01</span>
+    <h1 class="slide-title"><span class="highlight-red">Guerra</span> <span class="highlight-blue">Fria</span></h1>
+    <div class="slide-content">
+      <ul>
+        <li><strong>O que foi:</strong> Disputa ideológica, política e econômica entre EUA (Capitalismo) e URSS (Socialismo) após a Segunda Guerra Mundial.</li>
+        <li><strong>Mundo Bipolar:</strong> Divisão do planeta em dois grandes blocos de influência.</li>
+        <li><strong>Termo "Fria":</strong> Ausência de conflito militar direto entre as superpotências devido ao risco de destruição nuclear mútua.</li>
+      </ul>
+      <div class="slide-image">
+        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/The_Yalta_Conference,_February_1945_NAM234.jpg?width=350" alt="Conferência de Yalta - Churchill, Roosevelt e Stalin" />
+        <img src="https://upload.wikimedia.org/wikipedia/commons/a/a9/Flag_of_the_Soviet_Union.svg" alt="Bandeira URSS" />
+        <img src="https://upload.wikimedia.org/wikipedia/commons/a/a4/Flag_of_the_United_States.svg" alt="Bandeira EUA" />
+      </div>
+      <div class="caption">Conferência de Yalta (1945) — Churchill, Roosevelt e Stalin definem o pós-guerra</div>
+    </div>
+  </section>
+
+  <!-- SLIDE 2 -->
+  <section class="slide slide-2">
+    <span class="slide-number">02</span>
+    <h1 class="slide-title">O <span class="highlight-blue">Plano Marshall</span></h1>
+    <div class="slide-content">
+      <ul>
+        <li><strong>Objetivo:</strong> Programa dos EUA de ajuda financeira para reconstruir a Europa Ocidental destruída pela guerra.</li>
+        <li><strong>Foco Político:</strong> Conter o avanço do comunismo ao garantir estabilidade econômica na região.</li>
+        <li><strong>Resultado:</strong> Consolidação da influência americana e criação de mercados consumidores.</li>
+      </ul>
+      <div class="slide-image">
+        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/HarryTruman.jpg?width=200" alt="Harry S. Truman, presidente dos EUA (1945-1953)" />
+        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Marshall_Plan_poster.JPG?width=200" alt="Poster Plano Marshall" />
+      </div>
+      <div class="caption">Cartaz do Plano Marshall (1947) e retrato oficial do presidente Harry S. Truman</div>
+    </div>
+  </section>
+
+  <!-- SLIDE 3 -->
+  <section class="slide slide-3">
+    <span class="slide-number">03</span>
+    <h1 class="slide-title">A <span class="highlight-blue">ONU</span></h1>
+    <div class="slide-content">
+      <ul>
+        <li><strong>Criação:</strong> Fundada no pós-guerra para substituir a Liga das Nações e garantir a paz mundial.</li>
+        <li><strong>Papel no Conflito:</strong> Palco de debates diplomáticos e disputas políticas entre os blocos.</li>
+        <li><strong>Conselho de Segurança:</strong> Uso frequente do poder de veto por EUA e URSS, paralisando decisões importantes.</li>
+      </ul>
+      <div class="slide-image">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/3/37/Newyork_unitednations.JPG" alt="Sede da ONU em Nova York" />
+        <img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Flag_of_the_United_Nations.svg" alt="Bandeira ONU" />
+      </div>
+      <div class="caption">Sede da ONU em Nova York (foto real) — fundada em 1945</div>
+    </div>
+  </section>
+
+  <!-- SLIDE 4 -->
+  <section class="slide slide-4">
+    <span class="slide-number">04</span>
+    <h1 class="slide-title"><span class="highlight-red">Alemanha</span> <span class="highlight-blue">Ocidental</span> &amp; <span class="highlight-red">Oriental</span></h1>
+    <div class="slide-content">
+      <ul>
+        <li><strong>Divisão do País:</strong> Separação do território alemão em duas nações distintas.</li>
+        <li><strong>Alemanha Ocidental (RFA):</strong> Alinhada aos EUA, adotou o capitalismo e a democracia liberal.</li>
+        <li><strong>Alemanha Oriental (RDA):</strong> Alinhada à URSS, adotou o socialismo e o controle estatal.</li>
+        <li><strong>Muro de Berlim (1961):</strong> Construído pelo lado oriental, tornou-se o maior símbolo físico da divisão do mundo.</li>
+      </ul>
+      <div class="slide-image">
+        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Berlin_Wall_Reinforced_306-bn-104-1.jpg?width=350" alt="Muro de Berlim sendo reforçado" />
+        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/EUCOM_Checkpoint_Charlie_Standoff_1961.jpg?width=350" alt="Checkpoint Charlie 1961" />
+      </div>
+      <div class="caption">Construção do Muro (1961) e tanques americanos no Checkpoint Charlie</div>
+    </div>
+  </section>
+
+  <!-- SLIDE 5 -->
+  <section class="slide slide-5">
+    <span class="slide-number">05</span>
+    <h1 class="slide-title">A <span class="highlight-blue">OTAN</span></h1>
+    <div class="slide-content">
+      <ul>
+        <li><strong>Definição:</strong> Organização do Tratado do Atlântico Norte, aliança militar liderada pelos EUA e países ocidentais.</li>
+        <li><strong>Defesa Coletiva:</strong> Pacto onde um ataque a um membro seria considerado um ataque a todos.</li>
+        <li><strong>Propósito:</strong> Blindar a Europa Ocidental contra uma possível invasão ou expansão soviética.</li>
+      </ul>
+      <div class="slide-image">
+        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/NATO_1955.jpg?width=350" alt="Mapa da OTAN 1955" />
+        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/NATO_Headquarters.jpg?width=350" alt="Sede da OTAN em Bruxelas" />
+      </div>
+      <div class="caption">Mapa da OTAN (1955) e sede da aliança em Bruxelas</div>
+    </div>
+  </section>
+
+  <!-- SLIDE 6 -->
+  <section class="slide slide-6">
+    <span class="slide-number">06</span>
+    <h1 class="slide-title">O <span class="highlight-red">Pacto de Varsóvia</span></h1>
+    <div class="slide-content">
+      <ul>
+        <li><strong>Definição:</strong> Aliança militar formada pela URSS e seus países satélites da Europa Oriental.</li>
+        <li><strong>Motivação:</strong> Resposta direta à entrada da Alemanha Ocidental na OTAN.</li>
+        <li><strong>Função:</strong> Garantir o controle militar soviético sobre o bloco socialista e contrapor o poder do Ocidente.</li>
+      </ul>
+      <div class="slide-image">
+        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Warsaw_Pact_1955.jpg?width=350" alt="Assinatura do Pacto de Varsóvia em 1955" />
+      </div>
+      <div class="caption">Conferência de assinatura do Pacto de Varsóvia no Palácio do Conselho de Ministros, Varsóvia (1955)</div>
+    </div>
+  </section>
+
+  <!-- SLIDE 7 — QUIZ INTRO -->
+  <section class="slide slide-7">
+    <span class="slide-number">07</span>
+    <div class="slide-content" style="text-align:center;">
+      <div class="quiz-badge">&#9733; QUIZ</div>
+      <h1 class="slide-title" style="font-size:3.5rem;margin-bottom:0.5rem;"><span class="highlight-red">Teste</span> seus <span class="highlight-blue">Conhecimentos</span></h1>
+      <p style="color:#a0a4ac;font-size:1.05rem;max-width:600px;margin:0 auto 2rem;">
+        Responda às perguntas sobre a Guerra Fria e veja seu desempenho no final!
+      </p>
+      <div style="display:flex;justify-content:center;gap:2rem;flex-wrap:wrap;margin-top:1rem;">
+        <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);border-radius:1rem;padding:1.5rem 2rem;min-width:120px;">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:2.5rem;color:#dc2626;">5</div>
+          <div style="font-size:0.75rem;color:rgba(255,255,255,0.3);text-transform:uppercase;letter-spacing:0.1em;">Perguntas</div>
+        </div>
+        <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);border-radius:1rem;padding:1.5rem 2rem;min-width:120px;">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:2.5rem;color:#2563eb;">4</div>
+          <div style="font-size:0.75rem;color:rgba(255,255,255,0.3);text-transform:uppercase;letter-spacing:0.1em;">Opções cada</div>
+        </div>
+        <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);border-radius:1rem;padding:1.5rem 2rem;min-width:120px;">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:2.5rem;color:#22c55e;">★</div>
+          <div style="font-size:0.75rem;color:rgba(255,255,255,0.3);text-transform:uppercase;letter-spacing:0.1em;">Pontuação final</div>
+        </div>
+      </div>
+      <p style="color:rgba(255,255,255,0.2);font-size:0.8rem;margin-top:2rem;letter-spacing:0.05em;">Pressione → para começar</p>
+    </div>
+  </section>
+
+  <!-- SLIDE 8 — QUIZ 1 -->
+  <section class="slide slide-8" data-quiz="1">
+    <span class="slide-number">08</span>
+    <div class="slide-content">
+      <div class="quiz-badge">&#9733; PERGUNTA 1</div>
+      <div class="quiz-question">Qual foi a principal característica da Guerra Fria?</div>
+      <div class="quiz-options" data-correct="B">
+        <div class="quiz-option" data-letter="A"><span class="option-letter">A</span> Conflitos diretos entre EUA e URSS em vários continentes.</div>
+        <div class="quiz-option" data-letter="B"><span class="option-letter">B</span> Disputa indireta entre capitalismo e socialismo.</div>
+        <div class="quiz-option" data-letter="C"><span class="option-letter">C</span> Domínio total da União Soviética sobre o mundo.</div>
+        <div class="quiz-option" data-letter="D"><span class="option-letter">D</span> Ausência de conflitos militares em qualquer lugar.</div>
+      </div>
+      <div class="quiz-explanation" id="expl-1"><strong>✓ Correto!</strong> A Guerra Fria foi uma disputa política, econômica, ideológica e militar entre Estados Unidos e União Soviética. Apesar da rivalidade intensa, não houve guerra direta entre as duas superpotências.</div>
+      <div class="quiz-score" id="score-1"></div>
+      <div class="quiz-locked-msg">✔ Respondida! Siga para a próxima.</div>
+    </div>
+  </section>
+
+  <!-- SLIDE 9 — QUIZ 2 -->
+  <section class="slide slide-9" data-quiz="2">
+    <span class="slide-number">09</span>
+    <div class="slide-content">
+      <div class="quiz-badge">&#9733; PERGUNTA 2</div>
+      <div class="quiz-question">Por que os Estados Unidos criaram o Plano Marshall?</div>
+      <div class="quiz-options" data-correct="A">
+        <div class="quiz-option" data-letter="A"><span class="option-letter">A</span> Para financiar a reconstrução da Europa Ocidental e conter o avanço do comunismo.</div>
+        <div class="quiz-option" data-letter="B"><span class="option-letter">B</span> Para dividir a Alemanha em duas partes.</div>
+        <div class="quiz-option" data-letter="C"><span class="option-letter">C</span> Para criar a ONU.</div>
+        <div class="quiz-option" data-letter="D"><span class="option-letter">D</span> Para desenvolver armas nucleares.</div>
+      </div>
+      <div class="quiz-explanation" id="expl-2"><strong>✓ Correto!</strong> O Plano Marshall ajudou a reconstruir países devastados pela Segunda Guerra Mundial e fortaleceu as economias capitalistas da Europa Ocidental.</div>
+      <div class="quiz-score" id="score-2"></div>
+      <div class="quiz-locked-msg">✔ Respondida! Siga para a próxima.</div>
+    </div>
+  </section>
+
+  <!-- SLIDE 10 — QUIZ 3 -->
+  <section class="slide slide-10" data-quiz="3">
+    <span class="slide-number">10</span>
+    <div class="slide-content">
+      <div class="quiz-badge">&#9733; PERGUNTA 3</div>
+      <div class="quiz-question">O que simbolizava o Muro de Berlim durante a Guerra Fria?</div>
+      <div class="quiz-options" data-correct="C">
+        <div class="quiz-option" data-letter="A"><span class="option-letter">A</span> A união entre capitalismo e socialismo.</div>
+        <div class="quiz-option" data-letter="B"><span class="option-letter">B</span> O fim da influência soviética na Europa.</div>
+        <div class="quiz-option" data-letter="C"><span class="option-letter">C</span> A divisão política e ideológica do mundo em dois blocos.</div>
+        <div class="quiz-option" data-letter="D"><span class="option-letter">D</span> A criação da ONU.</div>
+      </div>
+      <div class="quiz-explanation" id="expl-3"><strong>✓ Correto!</strong> O Muro de Berlim representava a separação entre o bloco capitalista e o bloco socialista, tornando-se um dos maiores símbolos da Guerra Fria.</div>
+      <div class="quiz-score" id="score-3"></div>
+      <div class="quiz-locked-msg">✔ Respondida! Siga para a próxima.</div>
+    </div>
+  </section>
+
+  <!-- SLIDE 11 — QUIZ 4 -->
+  <section class="slide slide-11" data-quiz="4">
+    <span class="slide-number">11</span>
+    <div class="slide-content">
+      <div class="quiz-badge">&#9733; PERGUNTA 4</div>
+      <div class="quiz-question">Qual era a função principal da ONU após sua criação em 1945?</div>
+      <div class="quiz-options" data-correct="B">
+        <div class="quiz-option" data-letter="A"><span class="option-letter">A</span> Expandir o socialismo pelo mundo.</div>
+        <div class="quiz-option" data-letter="B"><span class="option-letter">B</span> Promover a paz e a cooperação entre as nações.</div>
+        <div class="quiz-option" data-letter="C"><span class="option-letter">C</span> Financiar a reconstrução da Europa.</div>
+        <div class="quiz-option" data-letter="D"><span class="option-letter">D</span> Criar alianças militares.</div>
+      </div>
+      <div class="quiz-explanation" id="expl-4"><strong>✓ Correto!</strong> A ONU foi criada para evitar novos conflitos mundiais, incentivar o diálogo entre os países e buscar soluções pacíficas para crises internacionais.</div>
+      <div class="quiz-score" id="score-4"></div>
+      <div class="quiz-locked-msg">✔ Respondida! Siga para a próxima.</div>
+    </div>
+  </section>
+
+  <!-- SLIDE 12 — QUIZ 5 + RESULTADO -->
+  <section class="slide slide-12" data-quiz="5">
+    <span class="slide-number">12</span>
+    <div class="slide-content">
+      <div class="quiz-badge">&#9733; PERGUNTA 5 — FINAL</div>
+      <div class="quiz-question">Qual foi o motivo da criação do Pacto de Varsóvia?</div>
+      <div class="quiz-options" data-correct="C">
+        <div class="quiz-option" data-letter="A"><span class="option-letter">A</span> Organizar o comércio internacional.</div>
+        <div class="quiz-option" data-letter="B"><span class="option-letter">B</span> Promover eleições democráticas na Europa Oriental.</div>
+        <div class="quiz-option" data-letter="C"><span class="option-letter">C</span> Formar uma aliança militar dos países socialistas em resposta ao bloco ocidental.</div>
+        <div class="quiz-option" data-letter="D"><span class="option-letter">D</span> Encerrar a Guerra Fria.</div>
+      </div>
+      <div class="quiz-explanation" id="expl-5"><strong>✓ Correto!</strong> O Pacto de Varsóvia reuniu a União Soviética e seus aliados da Europa Oriental para fortalecer a defesa militar do bloco socialista durante a Guerra Fria.</div>
+      <div class="quiz-score" id="score-5"></div>
+      <div class="quiz-locked-msg">✔ Questionário concluído!</div>
+    </div>
+  </section>
+
+</div>
+
+<!-- Navigation -->
+<nav class="nav">
+  <button id="prevBtn" aria-label="Slide anterior">◀</button>
+  <span class="slide-label" id="slideLabel">1 / 12+1</span>
+  <div class="dots" id="dots"></div>
+  <button id="nextBtn" aria-label="Próximo slide">▶</button>
+</nav>
+
+
+
+<script>
+  (() => {
+    const wrapper = document.getElementById('slidesWrapper');
+    const slides = document.querySelectorAll('.slide');
+    const total = slides.length;
+    const dotsContainer = document.getElementById('dots');
+    const slideLabel = document.getElementById('slideLabel');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+
+    let current = 0;
+    let quizScore = 0;
+    const answered = {};
+
+    function createDots() {
+      for (let i = 0; i < total; i++) {
+        const dot = document.createElement('button');
+        dot.className = 'dot' + (i === 0 ? ' active' : '');
+        dot.setAttribute('aria-label', `Ir para slide ${i + 1}`);
+        dot.addEventListener('click', () => goTo(i));
+        dotsContainer.appendChild(dot);
+      }
+    }
+
+    function update() {
+      wrapper.style.transform = `translateX(-${current * 100}vw)`;
+      document.querySelectorAll('.dot').forEach((d, i) => {
+        d.classList.toggle('active', i === current);
+      });
+      slideLabel.textContent = `${current + 1} / 12+1`;
+      prevBtn.disabled = current === 0;
+      nextBtn.disabled = current === total - 1;
+      updateNextButton();
+    }
+
+    function updateNextButton() {
+      const slide = slides[current];
+      const isQuiz = slide.hasAttribute('data-quiz');
+      if (isQuiz) {
+        const q = slide.getAttribute('data-quiz');
+        nextBtn.disabled = !answered[q];
+      }
+    }
+
+    function goTo(index) {
+      if (index < 0 || index >= total) return;
+      current = index;
+      update();
+    }
+
+    function setupQuiz() {
+      document.querySelectorAll('.quiz-options').forEach((container) => {
+        const options = container.querySelectorAll('.quiz-option');
+        const correct = container.getAttribute('data-correct');
+        const slide = container.closest('.slide');
+        const q = slide.getAttribute('data-quiz');
+        const expl = document.getElementById(`expl-${q}`);
+        const scoreEl = document.getElementById(`score-${q}`);
+        const lockedMsg = slide.querySelector('.quiz-locked-msg');
+
+        options.forEach((opt) => {
+          opt.addEventListener('click', () => {
+            if (answered[q]) return;
+            const letter = opt.getAttribute('data-letter');
+            const isCorrect = letter === correct;
+
+            if (isCorrect) {
+              opt.classList.add('correct');
+              opt.classList.add('disabled');
+              options.forEach((o) => o.classList.add('disabled'));
+              answered[q] = true;
+              quizScore++;
+              if (expl) expl.classList.add('show');
+              if (lockedMsg) lockedMsg.classList.add('show');
+              showScore(scoreEl, q);
+              updateNextButton();
+            } else {
+              opt.classList.add('wrong');
+              setTimeout(() => opt.classList.remove('wrong'), 500);
+            }
+          });
+        });
+      });
+    }
+
+    function showScore(el, q) {
+      if (!el) return;
+      if (q === '5') {
+        const stars = quizScore >= 5 ? '★★★★★' :
+                      quizScore >= 4 ? '★★★★☆' :
+                      quizScore >= 3 ? '★★★☆☆' :
+                      quizScore >= 2 ? '★★☆☆☆' : '★☆☆☆☆';
+        const message = quizScore === 5 ? 'Agente de elite! Conhecimento máximo!' :
+                       quizScore >= 4 ? 'Quase lá, agente! Continue estudando.' :
+                       quizScore >= 3 ? 'Bom trabalho, mas precisa de mais treinamento.' :
+                       'Missão falhou. Volte para a sala de briefing.';
+        el.innerHTML = `
+          <div class="score-stars">${stars}</div>
+          <div class="score-number">${quizScore}/5</div>
+          <div class="score-message">${message}</div>
+        `;
+        el.classList.add('show');
+      }
+    }
+
+    prevBtn.addEventListener('click', () => goTo(current - 1));
+    nextBtn.addEventListener('click', () => goTo(current + 1));
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); goTo(current - 1); }
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') { e.preventDefault(); goTo(current + 1); }
+      if (e.key === 'Home') { e.preventDefault(); goTo(0); }
+      if (e.key === 'End') { e.preventDefault(); goTo(total - 1); }
+    });
+
+    let touchStartX = 0;
+    document.addEventListener('touchstart', (e) => { touchStartX = e.changedTouches[0].screenX; });
+    document.addEventListener('touchend', (e) => {
+      const diff = touchStartX - e.changedTouches[0].screenX;
+      if (Math.abs(diff) > 50) {
+        diff > 0 ? goTo(current + 1) : goTo(current - 1);
+      }
+    });
+
+    createDots();
+    update();
+    setupQuiz();
+  })();
+</script>
+
+</body>
+</html>
